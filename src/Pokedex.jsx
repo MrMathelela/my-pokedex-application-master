@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchContainer: {
     display: "flex",
-    backgroundColor: "lightblue",
+    backgroundColor: "pink",
     paddingLeft: "20px",
     paddingRight: "20px",
     marginTop: "5px",
@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
+  },
+  labelHeader: {
+    backgroundColor: "pink",
+    textAlign: "center",
+    color: "brown"
   },
 }));
 
@@ -111,8 +116,9 @@ const Pokedex = (props) => {
 
   return (
     <>
-
-
+          <div>
+            <h1 className={classes.labelHeader}>Simon Mathelela PokeDex Application</h1>
+          </div>
           <div className={classes.searchContainer}>
             <SearchIcon className={classes.searchIcon} />
             <TextField
