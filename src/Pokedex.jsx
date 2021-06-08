@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchContainer: {
     display: "flex",
-    backgroundColor: "pink",
+    backgroundColor: "lightblue",
     paddingLeft: "20px",
     paddingRight: "20px",
     marginTop: "5px",
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey[500],
   },
   labelHeader: {
-    backgroundColor: "pink",
+    backgroundColor: "lightbrown",
     textAlign: "center",
     color: "brown"
   },
