@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: "20px",
     marginTop: "5px",
     marginBottom: "5px",
-    textAlign: "center"
+    textAlign: "center",
   },
   searchIcon: {
     alignSelf: "flex-end",
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   labelHeader: {
     backgroundColor: "pink",
     textAlign: "center",
-    color: "brown"
+    color: "brown",
   },
 }));
 
@@ -66,11 +66,12 @@ const Pokedex = (props) => {
   const { history } = props;
   const [pokemonData, setPokemonData] = useState({});
   const [filter, setFilter] = useState("");
+  const [pokeApiLimit, setPokeApiLimit] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`https://pokeapi.co/api/v2/pokemon?limit=100`)
-      .then(function (response) {
+
+    axios.get(process.env.REACT_APP_BACKEND_API).then(function (response_url) {
+      axios.get(response_url.data.PokemonLimit).then(function (response) {
         const { data } = response;
         const { results } = data;
         const newPokemonData = {};
@@ -78,13 +79,14 @@ const Pokedex = (props) => {
           newPokemonData[index + 1] = {
             id: index + 1,
             name: pokemon.name,
-            sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+            sprite: `${response_url.data.PokedexSpriteImage}${
               index + 1
             }.png`,
           };
         });
         setPokemonData(newPokemonData);
       });
+    });
   }, []);
 
   const handleSearchChange = (e) => {
@@ -115,19 +117,21 @@ const Pokedex = (props) => {
   };
 
   return (
-    <>
-          <div>
-            <h1 className={classes.labelHeader}>Simon Mathelela PokeDex Application</h1>
-          </div>
-          <div className={classes.searchContainer}>
-            <SearchIcon className={classes.searchIcon} />
-            <TextField
-              className={classes.searchInput}
-              onChange={handleSearchChange}
-              label="Pokemon"
-              variant="standard"
-            />
-          </div>
+    <div>
+      <div>
+        <h1 className={classes.labelHeader}>
+          Simon Mathelela PokeDex Application
+        </h1>
+      </div>
+      <div className={classes.searchContainer}>
+        <SearchIcon className={classes.searchIcon} />
+        <TextField
+          className={classes.searchInput}
+          onChange={handleSearchChange}
+          label="Pokemon"
+          variant="standard"
+        />
+      </div>
 
       {pokemonData ? (
         <Grid container spacing={2} className={classes.pokemonContainer}>
@@ -140,7 +144,7 @@ const Pokedex = (props) => {
       ) : (
         <CircularProgress />
       )}
-    </>
+    </div>
   );
 };
 

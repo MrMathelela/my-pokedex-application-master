@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Typography, Link, CircularProgress, Button } from "@material-ui/core";
 import axios from "axios";
@@ -12,30 +11,37 @@ const Pokemon = (props) => {
   const { params } = match;
   const { pokemonId } = params;
   const [pokemon, setPokemon] = useState(undefined);
+  const [spriteUrl, setSpriteUrl] = useState(undefined);
 
   const [open, setOpen] = React.useState(false);
-  
+
   function handleClose() {
     setOpen(false);
   }
 
   useEffect(() => {
-    axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
-      .then(function (response) {
-        const { data } = response;
-        setPokemon(data);
-        setOpen(true);
-      })
-      .catch(function (error) {
-        setPokemon(false);
-      });
+    axios.get(process.env.REACT_APP_BACKEND_API).then(function (response_url) {
+      setSpriteUrl(response_url.data)
+      console.log(`${response_url.data.PokemonID}${pokemonId}/`)
+      axios
+        .get(`${response_url.data.PokemonID}${pokemonId}/`)
+        .then(function (response) {
+          const { data } = response;
+          setPokemon(data);
+          setOpen(true);
+        })
+        .catch(function (error) {
+          setPokemon(false);
+        });
+    });
   }, [pokemonId]);
 
   const generatePokemonJSX = (pokemon) => {
+    const { PokemonSpriteImage } = spriteUrl
     const { name, id, species, height, weight, types, sprites } = pokemon;
-    const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
+    const fullImageUrl = `${PokemonSpriteImage}${id}.png`;
     const { front_default } = sprites;
+    console.log(PokemonSpriteImage)
     return (
       <div>
         <Dialog
@@ -69,7 +75,10 @@ const Pokemon = (props) => {
             })}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => history.push("/") | handleClose} color="primary">
+            <Button
+              onClick={() => history.push("/") | handleClose}
+              color="primary"
+            >
               Close
             </Button>
           </DialogActions>
@@ -79,10 +88,10 @@ const Pokemon = (props) => {
   };
 
   return (
-    <>
+    <div>
       {pokemon === undefined && <CircularProgress />}
       {pokemon !== undefined && pokemon && generatePokemonJSX(pokemon)}
-    </>
+    </div>
   );
 };
 
