@@ -6,8 +6,6 @@ import {
   CardContent,
   Typography,
   CircularProgress,
-  Toolbar,
-  AppBar,
   TextField,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -66,7 +64,6 @@ const Pokedex = (props) => {
   const { history } = props;
   const [pokemonData, setPokemonData] = useState({});
   const [filter, setFilter] = useState("");
-  const [pokeApiLimit, setPokeApiLimit] = useState("");
 
   useEffect(() => {
 
@@ -120,7 +117,7 @@ const Pokedex = (props) => {
     <div>
       <div>
         <h1 className={classes.labelHeader}>
-          Simon Mathelela PokeDex Application
+          Smangaliso Simon Mathelela PokeDex Application
         </h1>
       </div>
       <div className={classes.searchContainer}>
